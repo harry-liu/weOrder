@@ -83,8 +83,6 @@
         line-height: 33px;
         margin-top: -44px;
         margin-bottom: 10px;
-        -webkit-appearance: none;
-        border:none;
         text-align: right;
         padding:0 15px;
         display: block;

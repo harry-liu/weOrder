@@ -47,6 +47,13 @@ input{
     -webkit-appearance: none;
     outline:none;
     border-radius: 0;
+    border:none;
+}
+
+textarea{
+    -webkit-appearance: none;
+    outline:none;
+    border-radius: 0;
 }
 
 
@@ -87,6 +94,9 @@ input{
 }
 .font-14{
     font-size: 14px;
+}
+.font-13{
+    font-size: 13px;
 }
 .font-12{
     font-size: 12px;

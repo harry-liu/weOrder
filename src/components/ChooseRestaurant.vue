@@ -55,8 +55,6 @@
 </template>
 
 <script>
-    import router from '../route'
-
     export default{
         name:'choose-restaurant',
         data(){
@@ -66,7 +64,7 @@
         },
         methods:{
             goTo:function (id) {
-                router.push({name:'takeAwayOrder',params:{id:1}});
+                this.$router.push({name:'takeAwayOrder',params:{id:1}});
             }
         }
     }

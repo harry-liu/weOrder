@@ -86,8 +86,7 @@
 <script>
     import Tabs from './Tabs.vue'
     import Tab from './Tab.vue'
-    import router from '../route'
-//    import FoodMenu from './FoodMenu.vue'
+
     export default{
         name:"order",
         data(){
@@ -154,8 +153,8 @@
         },
         methods:{
             goToPay:function () {
-//                router.push({name:'takeAwayPay'});
-                router.push('/take-away-pay');
+                this.$router.push('/take-away-pay');
+
             },
             clearSelectedFood:function () {
                 this.menu.forEach(function (foods) {

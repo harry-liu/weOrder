@@ -41,7 +41,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(function(to,from,next){
-    if(to.meta.title == "restaurant_name"){
+    if(to.meta.title === "restaurant_name"){
         document.title = to.params.rest_name;
         // console.log(to);
     }
