@@ -1,0 +1,118 @@
+/*general css*/
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-touch-callout: none;
+    /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;
+    /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;
+    /* prevent copy paste, to allow, change 'none' to 'text' */
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin:0;
+    padding: 0;
+    background-color: #F6f6f6;
+    text-transform: uppercase;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.animate {
+    -moz-transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+.auto-hide-words{
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -icab-text-overflow: ellipsis;
+    -khtml-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+input{
+    -webkit-appearance: none;
+    outline:none;
+    border-radius: 0;
+}
+
+
+#app{
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    margin:0;
+    padding: 0;
+}
+
+.container{
+    padding:0 12px;
+}
+
+/*float right*/
+.pull-right{
+    float: right;
+}
+.pull-left{
+    float: left;
+}
+
+/*back color*/
+.red-back{
+    background-color: #FF0000;
+}
+.grey-back{
+    background-color: #F6f6f6;
+}
+.white-back{
+    background-color: #ffffff;
+}
+
+/*font size*/
+.font-15{
+    font-size: 15px;
+}
+.font-14{
+    font-size: 14px;
+}
+.font-12{
+    font-size: 12px;
+}
+
+/*font color*/
+.font-oringe{
+    color: #ff8041;
+}
+.font-gry{
+    color:#767676;
+}
+.font-white{
+    color:white;
+}
+
+/*borders*/
+.border-bottom{
+    border-bottom: 1px solid #d1d1d1;
+}
+.border-top{
+    border-top: 1px solid #d1d1d1;
+}
+.border-left{
+    border-left: 1px solid #d1d1d1;
+}
+.border-right{
+    border-right: 1px solid #d1d1d1;
+}
