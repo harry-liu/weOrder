@@ -1,70 +1,33 @@
 <template>
     <div class="choose-restaurant-container">
-        <div class="back-container">
-
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
-        </div>
-        <div class="position" @click="goTo('id')">
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">龙首原店</h1>
-            <p class="font-white font-12">西安市龙首北路与未央路十字东北角</p>
+        <div class="back-container"></div>
+        <div class="position" v-for="store in storeList" @click="goTo(store._id)" >
+            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">{{store.store_name}}</h1>
+            <p class="font-white font-12">{{store.store_address}}</p>
         </div>
     </div>
 </template>
 
 <script>
+    import api from '../API/api'
     export default{
         name:'choose-restaurant',
         data(){
             return {
-                msg:'这是选择店铺页面'
+                msg:'这是选择店铺页面',
+                storeList:[]
             }
+        },
+        mounted(){
+            var currrent = this;
+            api.getStore('3e50cfa246068c788589b37381958202').then(function (response) {
+                //console.log(response)
+                currrent.storeList = response.data.data.stores;
+            });
         },
         methods:{
             goTo:function (id) {
-                this.$router.push({name:'takeAwayOrder',params:{id:1}});
+                this.$router.push({name:'takeAwayOrder',params:{id:id}});
             }
         }
     }

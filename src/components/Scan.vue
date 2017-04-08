@@ -23,12 +23,14 @@
 </script>
 
 <style>
+    .scan-container{
+        padding-top: 65px !important;
+    }
     .scan-container .scan-btn{
         color:white;
         text-align: center;
         width: 100%;
         padding:13px 0;
-        margin-top: 65px;
         border-radius: 5px;
     }
 </style>

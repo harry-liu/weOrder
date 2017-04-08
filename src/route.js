@@ -57,7 +57,17 @@ router.beforeEach(function(to,from,next){
         }, 9)
     };
     document.body.appendChild(i);
+
+    // if(localStorage.getItem('order_token')){
+    //     next();
+    // }
+    // else {
+    //     next();
+    // }
     next();
+
+    // var currentUrl =
+    // getToken()
 });
 
 export default router;
