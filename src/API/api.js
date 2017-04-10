@@ -2,7 +2,7 @@
  * Created by harry-liu on 2017/4/7.
  */
 import axios from 'axios'
-import {getToken,getStore,getMenu,getRestaurantDetail} from './resource'
+import {getToken,getStore,getMenu,getRestaurantDetail,getUser,getBalance} from './resource'
 
 //axios.defaults.headers.common['access_token'] = true;
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -57,6 +57,20 @@ export default {
             method:'post',
             url:getRestaurantDetail,
             data:'access_token='+token+'&_id='+id
+        })
+    },
+    getUser:function (token) {
+        return instance({
+            method:'post',
+            url:getUser,
+            data:'access_token='+token
+        })
+    },
+    getBalance:function (token) {
+        return instance({
+            method:'post',
+            url:getBalance,
+            data:'access_token='+token
         })
     }
 }

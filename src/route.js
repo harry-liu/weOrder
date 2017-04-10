@@ -32,9 +32,14 @@ const routes = [
     { path: '/member-center',name:'memberCenter' , component: MemberCenter,meta:{title:'会员中心'}},
     { path: '/member-center/add-phone',name:'addPhoneNumber',component:AddPhoneNumber,meta:{title:'绑定手机号'}},
     { path: '/member-center/change-phone',name:'changePhoneNumber',component:AddPhoneNumber,meta:{title:'更改已绑定手机号'}},
+
     { path: '/pay-online',name:'payOnline' , component: PayOnline,meta:{title:'在线支付'}},
     { path: '/my-orders',name:'myOrders' , component: MyOrders,meta:{title:'我的订单'}},
+
     { path: '/instead-pay',name:'insteadPay' , component: InsteadPay,meta:{title:'代付求助页'}},
+
+    { path: '/charge',name:'charge' , component: InsteadPay,meta:{title:'代付求助页'}},
+
     { path: '*',name:'home',component:Home,meta:{title:'目录'}}
 ];
 

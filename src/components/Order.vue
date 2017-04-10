@@ -21,7 +21,7 @@
                                 <img :src="fo.cover" alt="" class="food-img pull-left">
                                 <div class="top-img-div pull-left">
                                     <p class="font-15">{{fo.name}}</p>
-                                    <p class="font-12 font-gry">排骨+藕片+金针菇+芹菜排骨+藕片+金针菇+芹菜</p>
+                                    <p class="font-12 font-gry">{{fo.desc}}</p>
                                 </div>
                             </div>
                             <p class="font-14 font-oringe pull-left" style="width: 100%">￥ {{fo.price}}</p>
@@ -71,10 +71,10 @@
                 <div class="detail-row white-back border-bottom border-top">
                     <p class="font-14">营业时间</p>
                     <span><img src="../assets/time.png" alt=""></span>
-                    <span class="font-12 font-oringe">10：00-15：00</span>
+                    <span class="font-12 font-oringe">{{restaurantDetail.online}}</span>
                 </div>
                 <div class="detail-row white-back border-bottom border-top">
-                    <p class="font-14"><img src="../assets/position.png" alt="">西安</p>
+                    <p class="font-14"><img src="../assets/position.png" alt="">{{restaurantDetail.store_address}}</p>
                     <span><img src="../assets/telphone.png" alt=""></span>
                     <span class="font-12 font-oringe" style="text-decoration: underline;">{{restaurantDetail.tel}}</span>
                 </div>
@@ -369,6 +369,10 @@
         display: none;
     }
 
+    .order-container .section-right .food-class{
+        width: 100%;
+    }
+
     .order-container .section-right .food-class-title{
         padding:10px 11px;
         margin:0;
@@ -377,6 +381,7 @@
 
     .order-container .section-right .food-class-body{
         padding:13px 15px 0 15px;
+        width: 100%;
     }
 
     .order-container .section-right .food-class-body .food-img{
