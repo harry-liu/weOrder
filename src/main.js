@@ -25,6 +25,8 @@ var vm = new Vue({
             //var currentVm = this;
 
             //api.getToken(url,token);
+
+            localStorage.setItem('access_token','3e50cfa246068c788589b37381958202');
         }
     }
 });

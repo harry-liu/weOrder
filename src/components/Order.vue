@@ -18,7 +18,7 @@
                         <h3 class="font-12 back-gry food-class-title border-bottom">【{{food.tag}}】</h3>
                         <div class="white-back food-class-body pull-left border-bottom" v-for="fo in food.list">
                             <div class="pull-left" style="width: 100%">
-                                <img src="../assets/choosebg.png" alt="" class="food-img pull-left">
+                                <img :src="fo.cover" alt="" class="food-img pull-left">
                                 <div class="top-img-div pull-left">
                                     <p class="font-15">{{fo.name}}</p>
                                     <p class="font-12 font-gry">排骨+藕片+金针菇+芹菜排骨+藕片+金针菇+芹菜</p>
@@ -64,7 +64,7 @@
             </tab>
             <tab name="店铺信息">
                 <div class="detail-row white-back border-bottom border-top">
-                    <p class="font-14">西安未央区龙首原店</p>
+                    <p class="font-14">{{restaurantDetail.store_name}}</p>
                     <span><img src="../assets/bike.png" alt="bike"></span>
                     <span class="font-12 font-oringe">暂不支持配送</span>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="detail-row white-back border-bottom border-top">
                     <p class="font-14"><img src="../assets/position.png" alt="">西安</p>
                     <span><img src="../assets/telphone.png" alt=""></span>
-                    <span class="font-12 font-oringe" style="text-decoration: underline;">029-123456</span>
+                    <span class="font-12 font-oringe" style="text-decoration: underline;">{{restaurantDetail.tel}}</span>
                 </div>
             </tab>
         </tabs>
@@ -86,43 +86,27 @@
 <script>
     import Tabs from './Tabs.vue'
     import Tab from './Tab.vue'
+    import api from '../API/api'
 
     export default{
         name:"order",
         data(){
             return{
-                menu:[
-                    {id:'a',tag:'凉菜类',selected:true,list:[
-                        {name:'红烧狮子头',price:24,selected:0},
-                        {name:'红烧带鱼',price:24,selected:0},
-                        {name:'红烧肉',price:24,selected:0},
-                        {name:'北京烤鸭',price:24,selected:0},
-                        {name:'红烧狮子头',price:24,selected:0}
-                    ]},
-                    {id:'b',tag:'热菜类',selected:false,list:[
-                        {name:'红烧狮子头',price:24,selected:0},
-                        {name:'红烧带鱼',price:24,selected:0},
-                        {name:'红烧肉',price:24,selected:0},
-                        {name:'北京烤鸭',price:24,selected:0},
-                        {name:'红烧狮子头',price:24,selected:0}
-                    ]},
-                    {id:'c',tag:'红烧菜类',selected:false,list:[
-                        {name:'红烧狮子头',price:24,selected:0},
-                        {name:'红烧带鱼',price:24,selected:0},
-                        {name:'红烧肉',price:24,selected:0},
-                        {name:'北京烤鸭',price:24,selected:0},
-                        {name:'红烧狮子头',price:24,selected:0}
-                    ]},
-                    {id:'d',tag:'什么菜类',selected:false,list:[
-                        {name:'红烧狮子头',price:24,selected:0},
-                        {name:'红烧带鱼',price:24,selected:0},
-                        {name:'红烧肉',price:24,selected:0},
-                        {name:'北京烤鸭',price:24,selected:0},
-                        {name:'红烧狮子头',price:24,selected:0}
-                    ]},
-                ],
-                showSelectedList:false
+                menu:[],
+                showSelectedList:false,
+                restaurantDetail:{}
             }
+        },
+        mounted(){
+            var token = localStorage.getItem('access_token');
+            var id = this.$route.params.id;
+            var current = this;
+            api.getMenu(token).then(function (response) {
+                current.setMenu(response.data.data.CateGoodsList);
+            });
+            api.getRestaurantDetail(token,id).then(function (response) {
+                current.restaurantDetail = response.data.data.stores;
+            })
         },
         computed:{
             selectedFood:function () {
@@ -152,6 +136,63 @@
             }
         },
         methods:{
+            setMenu(obj){
+                var finalList = [];
+
+                var pushTag = function (food) {
+                    var included = false;
+                    finalList.forEach(function (tag) {
+                        if(tag.id === food.cate){
+                            included = true;
+                        }
+                    });
+                    if(!included){
+                        var newTag = {
+                            id:'',
+                            tag:'',
+                            selected:false,
+                            list:[]
+                        };
+
+                        newTag.id = food.cate;
+                        newTag.tag = food.pcate_name;
+
+                        finalList.push(newTag);
+                    }
+                };
+
+                var pushFood = function (food) {
+                    finalList.forEach(function (tag) {
+                        if(tag.id === food.cate){
+                            var newFood = {
+                                name:'',
+                                price:'',
+                                id:'',
+                                cover:'',
+                                selected:0
+                            };
+                            newFood.name = food.title;
+                            newFood.price = food.market_price;
+                            newFood.id = food.goods_id;
+                            newFood.cover = food.thumb;
+
+                            tag.list.push(newFood);
+                        }
+                    })
+                };
+
+                for(var property in obj){
+                    if (obj.hasOwnProperty(property)) {
+                        // do stuff
+                        pushTag(obj[property]);
+                        pushFood(obj[property]);
+                    }
+                }
+
+                finalList[0].selected = true;
+
+                this.menu = finalList;
+            },
             goToPay:function () {
                 this.$router.push('/take-away-pay');
 

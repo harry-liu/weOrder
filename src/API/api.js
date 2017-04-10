@@ -2,7 +2,7 @@
  * Created by harry-liu on 2017/4/7.
  */
 import axios from 'axios'
-import {getToken,getStore} from './resource'
+import {getToken,getStore,getMenu,getRestaurantDetail} from './resource'
 
 //axios.defaults.headers.common['access_token'] = true;
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -21,7 +21,7 @@ export default {
             //access_token : true
         }).then(function (response) {
             //console.log(response);
-            if(response.data.status == 302){
+            if(response.data.status === 302){
                 //window.location.href = response.data.location;
                 console.log(response.data.status);
             }
@@ -44,10 +44,19 @@ export default {
                 access_token:token
             },
         })
-        //     .then(function (response) {
-        //     console.log(response);
-        // }).catch(function (err) {
-        //     console.log(err);
-        // })
+    },
+    getMenu:function (token) {
+        return instance({
+            method:'post',
+            url:getMenu,
+            data:'access_token='+token+'&pagesize=100'
+        })
+    },
+    getRestaurantDetail:function (token,id) {
+        return instance({
+            method:'post',
+            url:getRestaurantDetail,
+            data:'access_token='+token+'&_id='+id
+        })
     }
 }

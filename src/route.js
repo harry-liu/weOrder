@@ -23,6 +23,8 @@ const routes = [
     { path: '/take-away-pay',name:'takeAwayPay' , component: Pay,meta:{title:'填写订单'}},
 
     { path: '/pre-order',name:'preOrderChooseRestaurant' , component: ChooseRestaurant,meta:{title:'预点餐'}},
+    { path: '/pre-order/:id',name:'preOrder' , component: Order,meta:{title:'打包'}},
+    { path: '/pre-order-pay',name:'preOrderPay' , component: Pay,meta:{title:'填写订单'}},
 
     { path: '/have-in',name:'haveInScan' , component: Scan,meta:{title:'到店吃'}},
     { path: '/have-in/order/:rest_name/:rest_id/:table_id',name:'haveInOrder' , component: Order,meta:{title:'restaurant_name'}},
@@ -58,16 +60,7 @@ router.beforeEach(function(to,from,next){
     };
     document.body.appendChild(i);
 
-    // if(localStorage.getItem('order_token')){
-    //     next();
-    // }
-    // else {
-    //     next();
-    // }
     next();
-
-    // var currentUrl =
-    // getToken()
 });
 
 export default router;

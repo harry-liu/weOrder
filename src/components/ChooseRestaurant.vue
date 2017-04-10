@@ -20,14 +20,19 @@
         },
         mounted(){
             var currrent = this;
-            api.getStore('3e50cfa246068c788589b37381958202').then(function (response) {
-                //console.log(response)
+            var token = localStorage.getItem('access_token');
+            api.getStore(token).then(function (response) {
                 currrent.storeList = response.data.data.stores;
             });
         },
         methods:{
             goTo:function (id) {
-                this.$router.push({name:'takeAwayOrder',params:{id:id}});
+                if(this.$route.name === 'takeAwayChooseRestaurant'){
+                    this.$router.push({name:'takeAwayOrder',params:{id:id}});
+                }
+                else{
+                    this.$router.push({name:'preOrder',params:{id:id}});
+                }
             }
         }
     }
