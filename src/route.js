@@ -14,6 +14,11 @@ import InsteadPay from './components/InsteadPay.vue'
 import Order from './components/Order.vue'
 import AddPhoneNumber from './components/AddPhoneNumber.vue'
 import Pay from './components/Pay.vue'
+import Charge from './components/Charge.vue'
+import ChargeList from './components/ChargeList.vue'
+import ChargeHistory from './components/ChargeHistory.vue'
+import ChargePay from './components/ChargePay.vue'
+
 
 Vue.use(VueRouter);
 
@@ -38,7 +43,10 @@ const routes = [
 
     { path: '/instead-pay',name:'insteadPay' , component: InsteadPay,meta:{title:'代付求助页'}},
 
-    { path: '/charge',name:'charge' , component: InsteadPay,meta:{title:'代付求助页'}},
+    { path: '/charge',name:'charge' , component: Charge,meta:{title:'我的账户'}},
+    { path: '/charge-list',name:'chargeList' , component: ChargeList,meta:{title:'选择充值卡'}},
+    { path: '/charge-history',name:'chargeHistory' , component: ChargeHistory,meta:{title:'资金明细'}},
+    { path: '/charge-pay',name:'chargePay' , component: ChargePay,meta:{title:'充值卡支付'}},
 
     { path: '*',name:'home',component:Home,meta:{title:'目录'}}
 ];

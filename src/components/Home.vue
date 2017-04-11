@@ -7,6 +7,7 @@
         <router-link to="/pay-online">在线支付</router-link>
         <router-link to="/my-orders">我的订单</router-link>
         <router-link to="/instead-pay">代支付</router-link>
+        <router-link to="/charge">充值</router-link>
     </div>
 </template>
 

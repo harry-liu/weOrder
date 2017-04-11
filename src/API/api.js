@@ -7,6 +7,7 @@ import {getToken,getStore,getMenu,getRestaurantDetail,getUser,getBalance} from '
 //axios.defaults.headers.common['access_token'] = true;
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 var instance = axios.create({
+    withCredentials: true,
     headers:{
         'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'
     }
@@ -17,20 +18,22 @@ export default {
         return instance({
             method:'post',
             url:getToken,
-            data:'access_token='+token+'&current='+current
+            data:'access_token='+token+'&current='+current,
+
             //access_token : true
         }).then(function (response) {
             //console.log(response);
             if(response.data.status === 302){
-                //window.location.href = response.data.location;
-                console.log(response.data.status);
+                window.location.href = response.data.location;
             }
             else{
-                console.log(response.data.status);
-                if(response.data.access_token){
-                    //console.log(response.data.access_token);
-                    console.log(response);
-                }
+                // console.log(response.data.status);
+                // if(response.data.access_token){
+                //     //console.log(response.data.access_token);
+                //     console.log(response);
+                // }
+                localStorage.setItem('access_token',response.data.data.access_token);
+
             }
         }).catch(function (err) {
             console.log(err)
