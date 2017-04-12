@@ -19,19 +19,11 @@ export default {
             method:'post',
             url:getToken,
             data:'access_token='+token+'&current='+current,
-
-            //access_token : true
         }).then(function (response) {
-            //console.log(response);
             if(response.data.status === 302){
                 window.location.href = response.data.location;
             }
             else{
-                // console.log(response.data.status);
-                // if(response.data.access_token){
-                //     //console.log(response.data.access_token);
-                //     console.log(response);
-                // }
                 localStorage.setItem('access_token',response.data.data.access_token);
 
             }

@@ -20,11 +20,9 @@ var vm = new Vue({
             var token = localStorage.getItem('token')||'';
             var url = this.$route.path;
 
-            //var currentVm = this;
-
             api.getToken(url,token);
 
-            //localStorage.setItem('access_token','adbfaf26eeeb9c2de7d6d84f7854a130');
+            //localStorage.setItem('access_token','44111aa5920620f71ebf5633e4171b98');
         }
     }
 });

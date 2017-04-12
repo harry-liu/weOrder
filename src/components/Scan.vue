@@ -16,9 +16,8 @@
             }
         },
         mounted(){
-            var current = this;
             var token = localStorage.getItem('access_token');
-            var url = 'http://wdc-w.xabdsy.cn/index.html#/have-in';
+            var url = window.location.href;
 
             api.getWechatSetting(token,url).then(function (response) {
                 var data = response.data.data.share;
