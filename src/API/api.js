@@ -2,7 +2,7 @@
  * Created by harry-liu on 2017/4/7.
  */
 import axios from 'axios'
-import {getToken,getStore,getMenu,getRestaurantDetail,getUser,getBalance,getMsg,editPhone,getTotalSpend,getWechatSetting,getCardsList} from './resource'
+import {getToken,getStore,getMenu,getRestaurantDetail,getUser,getBalance,getMsg,editPhone,getTotalSpend,getWechatSetting,getCardsList,uploadOrder} from './resource'
 
 //axios.defaults.headers.common['access_token'] = true;
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -109,6 +109,13 @@ export default {
             method:'post',
             url:getCardsList,
             data:'access_token='+token
+        })
+    },
+    uploadOrder:function (token,goods_list,pay_type,order_type,remark) {
+        return instance({
+            method:'post',
+            url:uploadOrder,
+            data:'access_token='+token+'&goods_list='+goods_list+'&pay_type='+pay_type+'&order_type='+order_type+'&remark='+remark
         })
     },
 }

@@ -15,7 +15,8 @@ var api = {
     editPhone:'/v1/user/editPhone',
     getTotalSpend:'/v1/user/getConsume',
     getWechatSetting:'/v1/public/share',
-    getCardsList:'/v1/order/getWithdrawals'
+    getCardsList:'/v1/order/getWithdrawals',
+    uploadOrder:'/v1/order/setOrder'
 };
 
 export const getToken = API_ROOT + api.getToken;
@@ -29,4 +30,6 @@ export const editPhone = API_ROOT + api.editPhone;
 export const getTotalSpend = API_ROOT + api.getTotalSpend;
 export const getWechatSetting = API_ROOT + api.getWechatSetting;
 export const getCardsList = API_ROOT + api.getCardsList;
+export const uploadOrder = API_ROOT + api.uploadOrder;
+
 

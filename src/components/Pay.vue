@@ -37,7 +37,7 @@
             <div class="money">
                 <p>待付金额：<span class="font-oringe">￥60</span></p>
             </div>
-            <div class="pay pull-right pull-top  font-white red-back">
+            <div class="pay pull-right pull-top  font-white red-back" @click="pay">
                 <p>微信支付</p>
             </div>
             <div class="instead-pay pull-right pull-top">
@@ -51,6 +51,7 @@
 <script>
     import SelectList from './SelectList.vue'
     import CardPay from './CardPay.vue'
+    import api from '../API/api'
 
     export default{
         name:"pay",
@@ -67,17 +68,75 @@
                 ],
             }
         },
+        mounted(){
+            var token = localStorage.getItem('access_token');
+            var current = this;
+            var url = window.location.href;
+            api.getCardsList(token).then(function (response) {
+                current.transformCardsList(response.data.data.list);
+            })
+            api.getWechatSetting(token,url).then(function (response) {
+                var data = response.data.data.share;
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: data.appId, // 必填，公众号的唯一标识
+                    timestamp: data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                    signature: data.signature,// 必填，签名，见附录1
+                    jsApiList: data.jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+            })
+        },
         components:{
             SelectList,
             CardPay
         },
         methods:{
+            transformCardsList:function (list) {
+                var newList = [];
+                list.forEach(function (li) {
+                    var newObj = {
+                        name:'',
+                        selected:false,
+                        value:''
+                    }
+                    var total = Number(li.val)+Number(li.remark);
+                    newObj.name = total+'元充值卡（充'+li.val+'送'+li.remark+'）';
+                    newObj.value = li.name;
+                    newObj.total = total;
+                    newObj.spend = li.val;
+                    newList.push(newObj);
+                })
+                this.cardsList = newList;
+            },
             toggleChangeCard:function () {
                 this.showChangeCard = !this.showChangeCard;
                 this.$store.commit('toggleBlackCover');
+            },
+            pay:function () {
+                var token = localStorage.getItem('access_token');
+                var goods_list = JSON.stringify([{"goods_id":"58afa7b277e374863990f4e4","goods_title":"首付","goods_area":"58ae51aaed442f262e251003","goods_taste":"58b3eefcfa3dda240b891227","goods_price":"23.00","goods_number":6}]);
+                var pay_type = 1;
+                var order_type = 1;
+                var remark = 'test';
+                api.uploadOrder(token,goods_list,pay_type,order_type,remark).then(function (response) {
+                    var data = response.data.data.wepay;
+                    wx.ready(function() {
+                        wx.chooseWXPay({
+                            timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                            nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
+                            package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                            signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                            paySign: data.paySign, // 支付签名
+                            success: function (res) {
+                                // 支付成功后的回调函数
+                                alert('payment success');
+                            }
+                        })
+                    })
+                })
             }
         }
-
     }
 </script>
 
