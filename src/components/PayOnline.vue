@@ -5,13 +5,13 @@
         <input type="text" placeholder="询问服务员后输入" class="font-12" v-model="total">
         <card-pay @click.native="toggleChangeCard" v-show="total>0" :totalPrice="total" :selectCard = 'selectCard'></card-pay>
         <div class="container">
-            <div class="btn-pay red-back">支付：￥{{selectCard||total}}</div>
+            <div class="btn-pay red-back">支付：￥{{selectCard||total||0}}</div>
         </div>
         <div class="change-container" v-show="showChangeStore">
             <select-list type="store" :listData="storeList" @hide="toggleChangeStore" @updateValue="selectStore = arguments[0]"></select-list>
         </div>
         <div class="change-container" v-show="showChangeCard">
-            <select-list type="restaurant" :listData="cardsList" @hide="toggleChangeCard" @updateValue="selectCard = arguments[0]"></select-list>
+            <select-list type="cards" :listData="cardsList" @hide="toggleChangeCard" @updateValue="selectCard = arguments[0]"></select-list>
         </div>
     </div>
 </template>
@@ -27,20 +27,12 @@
                 showChangeStore:false,
                 showChangeCard:false,
                 storeList:[],
-                cardsList:[
-                    {name:'115元充值卡（充100送15）',selected:false,value:100},
-                    {name:'225元充值卡（充200送25）',selected:false,value:200},
-                    {name:'335元充值卡（充300送35）',selected:false,value:300},
-                    {name:'445元充值卡（充400送45）',selected:false,value:400}
-                ],
+                cardsList:[],
                 total:'',
                 selectStore:'',
                 selectCard:'',
                 chargeAmount:0
             }
-        },
-        watch:{
-
         },
         mounted(){
             var token = localStorage.getItem('access_token');
@@ -49,7 +41,11 @@
                 //current.storeList = response.data.data.stores;
                 current.transformStoreList(response.data.data.stores);
             })
+            api.getCardsList(token).then(function (response) {
+                current.transformCardsList(response.data.data.list);
+            })
             //console.log(this.storeList);
+
         },
         components:{
             SelectList,
@@ -74,6 +70,23 @@
                     newList.push(newObj);
                 })
                 this.storeList = newList;
+            },
+            transformCardsList:function (list) {
+                var newList = [];
+                list.forEach(function (li) {
+                    var newObj = {
+                        name:'',
+                        selected:false,
+                        value:''
+                    }
+                    var total = Number(li.val)+Number(li.remark);
+                    newObj.name = total+'元充值卡（充'+li.val+'送'+li.remark+'）';
+                    newObj.value = li.name;
+                    newObj.total = total;
+                    newObj.spend = li.val;
+                    newList.push(newObj);
+                })
+                this.cardsList = newList;
             },
             toggleChangeStore:function () {
                 this.showChangeStore = !this.showChangeStore;

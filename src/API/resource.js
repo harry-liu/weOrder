@@ -13,7 +13,9 @@ var api = {
     getBalance:'/v1/user/getPostal',
     getMsg:'/v1/user/getMobileVerify',
     editPhone:'/v1/user/editPhone',
-    getTotalSpend:'/v1/user/getConsume'
+    getTotalSpend:'/v1/user/getConsume',
+    getWechatSetting:'/v1/public/share',
+    getCardsList:'/v1/order/getWithdrawals'
 };
 
 export const getToken = API_ROOT + api.getToken;
@@ -25,4 +27,6 @@ export const getBalance = API_ROOT + api.getBalance;
 export const getMsg = API_ROOT + api.getMsg;
 export const editPhone = API_ROOT + api.editPhone;
 export const getTotalSpend = API_ROOT + api.getTotalSpend;
+export const getWechatSetting = API_ROOT + api.getWechatSetting;
+export const getCardsList = API_ROOT + api.getCardsList;
 
