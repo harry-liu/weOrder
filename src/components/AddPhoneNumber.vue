@@ -1,28 +1,60 @@
 <template>
     <div class="container add-phone-number-container">
         <form action="" @submit="">
-            <input type="text" placeholder="请输入手机号" class="first">
-            <input type="text" placeholder="请输入验证码" class="last">
-            <div class="get-code font-oringe">免费获取验证码</div>
-            <div class="red-back submit-btn font-14">{{btnText}}</div>
+            <input type="text" placeholder="请输入手机号" class="first" v-model="mobile">
+            <input type="text" placeholder="请输入验证码" class="last" v-model="msg">
+            <div class="get-code font-oringe" @click="getMsg" :class="{'font-gry':!btnClickable}">免费获取验证码</div>
+            <div class="red-back submit-btn font-14" @click="update">{{btnText}}</div>
         </form>
     </div>
 </template>
 
 <script>
+    import api from '../API/api'
     export default{
         name:'add-phone-number',
         data(){
             return{
-                btnText:''
+                btnText:'',
+                mobile:'',
+                msg:'',
+                btnClickable:true
             }
         },
         mounted(){
-            if(this.$route.name == "addPhoneNumber") {
+            if(this.$route.name === "addPhoneNumber") {
                 this.btnText = '立即绑定';
             }
             else{
                 this.btnText = '确认更改';
+            }
+        },
+        methods:{
+            getMsg:function () {
+                var token = localStorage.getItem('access_token');
+                var current = this;
+                if(this.btnClickable){
+                    if(this.mobile === ''){
+                        alert('请输入手机号')
+                    }
+                    else{
+                        this.btnClickable = false;
+                        setTimeout(function () {
+                            current.btnClickable = true;
+                        },60000)
+                        api.getMsg(token,this.mobile);
+                    }
+                }
+            },
+            update:function () {
+                var token = localStorage.getItem('access_token');
+                var current = this;
+                api.editPhone(token,current.mobile,current.msg).then(function (response) {
+                    if(response.data.status === 200){
+                        alert('修改成功！');
+                        current.$router.go(-1);
+                    }
+                })
             }
         }
     }

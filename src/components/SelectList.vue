@@ -40,6 +40,11 @@
                 confirm:'确定'
             }
         },
+        watch:{
+            listData:function (val,oldVal) {
+                this.lists = this.listData;
+            }
+        },
         methods:{
             hideSelect:function () {
                 this.$emit('hide');
@@ -54,7 +59,7 @@
             },
             select:function (data) {
                 this.lists.forEach(function (element) {
-                    element.selected = element == data;
+                    element.selected = element === data;
                 })
             },
             updateValue:function () {

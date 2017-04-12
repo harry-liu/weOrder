@@ -9,8 +9,6 @@ import api from './API/api'
 //
 // Vue.use(VueWaypoint)
 
-
-
 var vm = new Vue({
     router:router,
     store:store,

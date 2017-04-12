@@ -10,7 +10,10 @@ var api = {
     getMenu:'/v1/Shop/getCateGoodsList',
     getRestaurantDetail:'/v1/shop/getStoreDetail',
     getUser:'/v1/user/getUser',
-    getBalance:'/v1/user/getPostal'
+    getBalance:'/v1/user/getPostal',
+    getMsg:'/v1/user/getMobileVerify',
+    editPhone:'/v1/user/editPhone',
+    getTotalSpend:'/v1/user/getConsume'
 };
 
 export const getToken = API_ROOT + api.getToken;
@@ -19,4 +22,7 @@ export const getMenu = API_ROOT + api.getMenu;
 export const getRestaurantDetail = API_ROOT + api.getRestaurantDetail;
 export const getUser = API_ROOT + api.getUser;
 export const getBalance = API_ROOT + api.getBalance;
+export const getMsg = API_ROOT + api.getMsg;
+export const editPhone = API_ROOT + api.editPhone;
+export const getTotalSpend = API_ROOT + api.getTotalSpend;
 

@@ -8,7 +8,7 @@
                 <p>昵称：{{user.nickname}}</p>
                 <p>ID：{{user.uid}}</p>
                 <!--<p>积分：{{}}</p>-->
-                <template  v-if="user.phone">
+                <template  v-if="user.phone === ''">
                     <a style="text-decoration: underline" href="#member-center/add-phone">立即绑定手机号</a><br>
                 </template>
                 <template v-else>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="detail-body">
-            <div>
+            <div @click="goto">
                 <img src="../assets/shop.png" alt="">
                 <p class="font-14">我的订单</p>
             </div>
@@ -41,7 +41,7 @@
                 <p class="font-14">累计消费</p>
             </div>
             <div class="border-left">
-                <p class="font-14 font-oringe">￥200</p>
+                <p class="font-14 font-oringe">￥{{totalSpend}}</p>
             </div>
         </div>
     </div>
@@ -54,7 +54,8 @@
         data(){
             return{
                 user:{},
-                balance:0
+                balance:0,
+                totalSpend:0
             }
         },
         mounted(){
@@ -66,10 +67,13 @@
             api.getBalance(token).then(function (response) {
                 current.balance = response.data.data.money;
             })
+            api.getTotalSpend(token).then(function (response) {
+                current.totalSpend = response.data.data.money;
+            })
         },
         methods:{
-            goto:function (url) {
-                
+            goto:function () {
+                this.$router.push({name:'myOrders'})
             }
         }
     }

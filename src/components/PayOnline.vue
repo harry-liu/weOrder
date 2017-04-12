@@ -19,18 +19,14 @@
 <script>
     import SelectList from './SelectList.vue'
     import CardPay from './CardPay.vue'
+    import api from '../API/api'
     export default{
         name:'pay-online',
         data(){
             return{
                 showChangeStore:false,
                 showChangeCard:false,
-                storeList:[
-                    {name:'龙首原店',selected:false,value:'龙首原店'},
-                    {name:'边家村店',selected:false,value:'边家村店'},
-                    {name:'金花店',selected:false,value:'金花店'},
-                    {name:'高新店',selected:false,value:'高新店'}
-                ],
+                storeList:[],
                 cardsList:[
                     {name:'115元充值卡（充100送15）',selected:false,value:100},
                     {name:'225元充值卡（充200送25）',selected:false,value:200},
@@ -43,6 +39,18 @@
                 chargeAmount:0
             }
         },
+        watch:{
+
+        },
+        mounted(){
+            var token = localStorage.getItem('access_token');
+            var current = this;
+            api.getStore(token).then(function (response) {
+                //current.storeList = response.data.data.stores;
+                current.transformStoreList(response.data.data.stores);
+            })
+            //console.log(this.storeList);
+        },
         components:{
             SelectList,
             CardPay
@@ -53,6 +61,20 @@
             }
         },
         methods:{
+            transformStoreList:function (list) {
+                var newList = [];
+                list.forEach(function (li) {
+                    var newObj = {
+                        name:'',
+                        selected:false,
+                        value:''
+                    }
+                    newObj.name = li.store_name;
+                    newObj.value = li.store_name;
+                    newList.push(newObj);
+                })
+                this.storeList = newList;
+            },
             toggleChangeStore:function () {
                 this.showChangeStore = !this.showChangeStore;
                 this.$store.commit('toggleBlackCover');
