@@ -18,20 +18,23 @@
                 btnText:'',
                 mobile:'',
                 msg:'',
-                btnClickable:true
+                btnClickable:true,
+                alertMsg:''
             }
         },
         mounted(){
             if(this.$route.name === "addPhoneNumber") {
                 this.btnText = '立即绑定';
+                this.alertMsg = '绑定成功';
             }
             else{
+                this.mobile = this.$store.state.user.user.phone;
                 this.btnText = '确认更改';
+                this.alertMsg = '修改成功';
             }
         },
         methods:{
             getMsg:function () {
-                var token = localStorage.getItem('access_token');
                 var current = this;
                 if(this.btnClickable){
                     if(this.mobile === ''){
@@ -42,16 +45,15 @@
                         setTimeout(function () {
                             current.btnClickable = true;
                         },60000)
-                        api.getMsg(token,this.mobile);
+                        this.$store.dispatch('sendMsg',this.mobile)
                     }
                 }
             },
             update:function () {
-                var token = localStorage.getItem('access_token');
                 var current = this;
-                api.editPhone(token,current.mobile,current.msg).then(function (response) {
+                this.$store.dispatch('changeMobileNumber',{mobile:this.mobile,msg:this.msg}).then(function (response) {
                     if(response.data.status === 200){
-                        alert('修改成功！');
+                        alert(current.alertMsg);
                         current.$router.go(-1);
                     }
                 })

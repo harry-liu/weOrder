@@ -22,7 +22,7 @@ var vm = new Vue({
 
             //api.getToken(url,token);
 
-            localStorage.setItem('access_token','d9761f3d24a74846847fe3b7596c0253');
+            localStorage.setItem('access_token','fd72758764fdee01b9b7a6a7cb0579b1');
         }
     }
 });

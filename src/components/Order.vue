@@ -13,8 +13,6 @@
 
                     <div class="food-class pull-left" v-for="food in menu" :id="food.id">
 
-                        <!--<v-waypoint @waypoint-in="inHandler(food.id)"></v-waypoint>-->
-
                         <h3 class="font-12 back-gry food-class-title border-bottom">【{{food.tag}}】</h3>
                         <div class="white-back food-class-body pull-left border-bottom" v-for="fo in food.list">
                             <div class="pull-left" style="width: 100%">
@@ -93,8 +91,7 @@
         data(){
             return{
                 menu:[],
-                showSelectedList:false,
-                restaurantDetail:{}
+                showSelectedList:false
             }
         },
         mounted(){
@@ -104,9 +101,7 @@
             api.getMenu(token).then(function (response) {
                 current.setMenu(response.data.data.CateGoodsList);
             });
-            api.getRestaurantDetail(token,id).then(function (response) {
-                current.restaurantDetail = response.data.data.stores;
-            })
+            this.$store.dispatch('getRestaurant',id);
         },
         computed:{
             selectedFood:function () {
@@ -133,6 +128,9 @@
                     number += 1 * food.selected;
                 });
                 return number;
+            },
+            restaurantDetail:function () {
+                return this.$store.state.restaurants.restaurantDetail;
             }
         },
         methods:{
@@ -231,36 +229,7 @@
                 var target = document.getElementById(id);
                 var targetParent = target.parentElement;
                 var stopY = target.offsetTop;
-                var startY = targetParent.scrollTop;
-                //console.log(target);
-                //console.log(targetParent);
                 targetParent.scrollTop = stopY-87;
-//                var distance = stopY > startY ? stopY - startY : startY - stopY;
-//                if (distance < 100) {
-//                    scrollTo(0, stopY);
-//                    return;
-//                }
-//                var speed = Math.round(distance / 100);
-//                if (speed >= 20) speed = 20;
-//                var step = Math.round(distance / 25);
-//                var leapY = stopY > startY ? startY + step : startY - step;
-//                var timer = 0;
-//                if (stopY > startY) {
-//                    for ( var i=startY; i<stopY; i+=step ) {
-//                        setTimeout("document.getElementById('section-right').scrollTop = "+stopY+(-87), timer * speed);
-//                        leapY += step; if (leapY > stopY) leapY = stopY; timer++;
-//                    }
-//                    return;
-//                }
-//                for ( var i=startY; i>stopY; i-=step ) {
-//                    setTimeout("document.getElementById('section-right').scrollTop = "+stopY+(-87), timer * speed);
-//                    leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
-//                }
-
-
-            },
-            inHandler:function (id) {
-                console.log('in'+id);
             },
             activeFood:function (food) {
                 this.menu.forEach(function (fo) {
@@ -272,7 +241,6 @@
         components:{
             Tabs,
             Tab
-//            FoodMenu
         }
     }
 </script>

@@ -48,28 +48,21 @@
 </template>
 
 <script>
-    import api from '../API/api'
     export default{
         name:'member-center',
-        data(){
-            return{
-                user:{},
-                balance:0,
-                totalSpend:0
+        computed:{
+            user:function () {
+                return this.$store.state.user.user
+            },
+            balance:function () {
+                return this.$store.state.user.balance
+            },
+            totalSpend:function () {
+                return this.$store.state.user.totalSpend
             }
         },
-        mounted(){
-            var token = localStorage.getItem('access_token')
-            var current = this;
-            api.getUser(token).then(function (response) {
-                current.user = response.data.data.User;
-            })
-            api.getBalance(token).then(function (response) {
-                current.balance = response.data.data.money;
-            })
-            api.getTotalSpend(token).then(function (response) {
-                current.totalSpend = response.data.data.money;
-            })
+        created(){
+            this.$store.dispatch('getAllUserInfo');
         },
         methods:{
             goto:function () {

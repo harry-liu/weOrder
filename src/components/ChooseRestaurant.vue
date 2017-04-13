@@ -9,9 +9,6 @@
 </template>
 
 <script>
-    //import api from '../API/api'
-    import { mapGetters, mapActions } from 'vuex'
-
     export default{
         name:'choose-restaurant',
         computed:{
