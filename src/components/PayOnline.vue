@@ -90,7 +90,8 @@
             },
             toggleChangeStore:function () {
                 this.showChangeStore = !this.showChangeStore;
-                this.$store.commit('toggleBlackCover');
+                //this.$store.commons.commit('toggleBlackCover');
+                this.$store.commit('toggleBlackCover')
             },
             toggleChangeCard:function () {
                 this.showChangeCard = !this.showChangeCard;

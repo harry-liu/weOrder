@@ -1,12 +1,7 @@
 /**
- * Created by harry-liu on 2017/3/17.
+ * Created by harry-liu on 2017/4/13.
  */
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
+export const moduleCommon = {
     state:{
         showBlackCover:false
     },
@@ -15,6 +10,4 @@ const store = new Vuex.Store({
             state.showBlackCover = !state.showBlackCover;
         }
     }
-});
-
-export default store;
+}

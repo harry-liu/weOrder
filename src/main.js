@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import router from './route'
-import store from './store'
+import store from './store/store'
 import App from './App.vue'
 import directive from './directive'
 import api from './API/api'
@@ -20,9 +20,9 @@ var vm = new Vue({
             var token = localStorage.getItem('token')||'';
             var url = this.$route.path;
 
-            api.getToken(url,token);
+            //api.getToken(url,token);
 
-            //localStorage.setItem('access_token','44111aa5920620f71ebf5633e4171b98');
+            localStorage.setItem('access_token','d9761f3d24a74846847fe3b7596c0253');
         }
     }
 });

@@ -18,7 +18,7 @@ export default {
     },
     computed:{
         showBlackCover (){
-            return this.$store.state.showBlackCover;
+            return this.$store.state.commons.showBlackCover;
         }
     }
 }

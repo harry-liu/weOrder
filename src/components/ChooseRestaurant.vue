@@ -9,21 +9,18 @@
 </template>
 
 <script>
-    import api from '../API/api'
+    //import api from '../API/api'
+    import { mapGetters, mapActions } from 'vuex'
+
     export default{
         name:'choose-restaurant',
-        data(){
-            return {
-                msg:'这是选择店铺页面',
-                storeList:[]
+        computed:{
+            storeList:function () {
+                return this.$store.state.restaurants.restaurantList;
             }
         },
-        mounted(){
-            var currrent = this;
-            var token = localStorage.getItem('access_token');
-            api.getStore(token).then(function (response) {
-                currrent.storeList = response.data.data.stores;
-            });
+        created(){
+            this.$store.dispatch('getRestaurants');
         },
         methods:{
             goTo:function (id) {
