@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import {moduleCommon} from './modules/moduleCommon'
 import {moduleRestaurant} from './modules/moduleRestaurant'
 import {moduleUser} from './modules/moduleUser'
+import {moduleMenu} from './modules/moduleMenu'
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
     modules:{
         restaurants:moduleRestaurant,
         commons:moduleCommon,
-        user:moduleUser
+        user:moduleUser,
+        menu:moduleMenu
     }
 });
 

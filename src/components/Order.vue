@@ -90,20 +90,18 @@
         name:"order",
         data(){
             return{
-                menu:[],
                 showSelectedList:false
             }
         },
         mounted(){
-            var token = localStorage.getItem('access_token');
             var id = this.$route.params.id;
-            var current = this;
-            api.getMenu(token).then(function (response) {
-                current.setMenu(response.data.data.CateGoodsList);
-            });
+            this.$store.dispatch('getMenu');
             this.$store.dispatch('getRestaurant',id);
         },
         computed:{
+            menu:function () {
+                return this.$store.state.menu.menu;
+            },
             selectedFood:function () {
                 var list = [];
                 this.menu.forEach(function (foods) {
@@ -134,63 +132,6 @@
             }
         },
         methods:{
-            setMenu(obj){
-                var finalList = [];
-
-                var pushTag = function (food) {
-                    var included = false;
-                    finalList.forEach(function (tag) {
-                        if(tag.id === food.cate){
-                            included = true;
-                        }
-                    });
-                    if(!included){
-                        var newTag = {
-                            id:'',
-                            tag:'',
-                            selected:false,
-                            list:[]
-                        };
-
-                        newTag.id = food.cate;
-                        newTag.tag = food.pcate_name;
-
-                        finalList.push(newTag);
-                    }
-                };
-
-                var pushFood = function (food) {
-                    finalList.forEach(function (tag) {
-                        if(tag.id === food.cate){
-                            var newFood = {
-                                name:'',
-                                price:'',
-                                id:'',
-                                cover:'',
-                                selected:0
-                            };
-                            newFood.name = food.title;
-                            newFood.price = food.market_price;
-                            newFood.id = food.goods_id;
-                            newFood.cover = food.thumb;
-
-                            tag.list.push(newFood);
-                        }
-                    })
-                };
-
-                for(var property in obj){
-                    if (obj.hasOwnProperty(property)) {
-                        // do stuff
-                        pushTag(obj[property]);
-                        pushFood(obj[property]);
-                    }
-                }
-
-                finalList[0].selected = true;
-
-                this.menu = finalList;
-            },
             goToPay:function () {
                 this.$router.push('/take-away-pay');
 
@@ -204,26 +145,17 @@
                 this.showSelectedList = false;
             },
             scrollFn:function (e) {
-                //console.log(e);
-//                var menu = this.menu;
                 var targetTop = document.getElementById('section-right').scrollTop;
-                //console.log(target.scrollTop);
                 var targeChildsLength = document.getElementsByClassName('food-class').length;
                 for (var i = 0;i<targeChildsLength;i++){
                     var target = document.getElementsByClassName('food-class')[i];
-//                    console.log(i+':'+target.offsetTop);
-//                    console.log(i+':'+targetTop+87);
-//                    console.log(i+':'+target.offsetTop+target.offsetHeight);
                     if(Number(target.offsetTop)<=Number(targetTop)+87&&Number(targetTop)+87<Number(target.offsetTop)+Number(target.offsetHeight)){
                         this.menu[i].selected = true;
-                        //console.log(i);
                     }
                     else{
                         this.menu[i].selected = false;
-                        //alert('false')
                     }
                 }
-                //console.log();
             },
             scrollTo:function (id) {
                 var target = document.getElementById(id);
