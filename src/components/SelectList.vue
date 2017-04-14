@@ -63,10 +63,10 @@
                 })
             },
             updateValue:function () {
-                var selectValue = '';
+                var selectValue = {};
                 this.lists.forEach(function (element) {
                     if(element.selected){
-                        selectValue = element.value;
+                        selectValue = element;
                     }
                 });
                 this.$emit('updateValue',selectValue);

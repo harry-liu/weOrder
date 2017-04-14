@@ -32,7 +32,7 @@
 
         <div class="bottom container">
             <div class="money">
-                <p>待付金额：<span class="font-oringe">￥{{total}}</span></p>
+                <p>待付金额：<span class="font-oringe">￥{{selectCard.spend||total||0}}</span></p>
             </div>
             <div class="pay pull-right pull-top  font-white red-back" @click="pay">
                 <p>微信支付</p>
@@ -54,7 +54,7 @@
         name:"pay",
         data(){
             return{
-                selectCard:'',
+                selectCard:{},
                 showChangeCard:false
             }
         },

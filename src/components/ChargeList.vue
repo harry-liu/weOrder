@@ -2,13 +2,13 @@
     <div class="charge-list-container">
         <p class="font-gry">请选择要购买的充值卡面额 <span class="font-oringe">（一经售出概不退还）</span></p>
         <div class="cards-container">
-            <div class="card" @click="charge">
+            <div class="card" @click="charge(card)" v-for="card in cards">
                 <div class="card-top">
-                    <h1>￥110</h1>
-                    <p>￥110元充值卡</p>
+                    <h1>￥{{card.total}}</h1>
+                    <p>￥{{card.total}}元充值卡</p>
                 </div>
                 <div class="card-bot">
-                    <p>售价￥100 <span>永久有效</span></p>
+                    <p>售价￥{{card.spend}} <span>永久有效</span></p>
                 </div>
             </div>
         </div>
@@ -18,8 +18,17 @@
 <script>
     export default{
         name:'charge-list',
+        created(){
+            this.$store.dispatch('getCards');
+        },
+        computed:{
+            cards:function () {
+                return this.$store.state.cards.cards;
+            }
+        },
         methods:{
-            charge:function () {
+            charge:function (card) {
+                this.$store.commit('setCard',card);
                 this.$router.push({name:'chargePay'})
             }
         }

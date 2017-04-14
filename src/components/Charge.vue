@@ -4,7 +4,7 @@
             <img src="../assets/money.png" alt="">
         </div>
         <p class="font-gry balance-label">账户余额</p>
-        <h1 class="border-bottom balance">￥100</h1>
+        <h1 class="border-bottom balance">￥{{userBalance}}</h1>
         <div class="buy-card red-back btn font-white" @click="buyCards">购买充值卡（仅限本商户）</div>
         <div class="check-btn white-back btn" @click="checkBalance">查看资金明细</div>
     </div>
@@ -13,13 +13,20 @@
 <script>
     export default{
         name:'charge',
+        created(){
+            this.$store.dispatch('getUserBalance');
+        },
+        computed:{
+            userBalance:function () {
+                return this.$store.state.user.balance;
+            }
+        },
         methods:{
             buyCards:function () {
                 this.$router.push({name:'chargeList'})
             },
             checkBalance:function () {
                 this.$router.push({name:'chargeHistory'})
-
             }
         }
     }

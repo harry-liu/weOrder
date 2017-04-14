@@ -3,9 +3,9 @@
         <p class="white-back border-top border-bottom font-12 first-p">
             充值卡付款更优惠
             <img src="../assets/arrow.png" class="pull-right arrow">
-            <span class="pull-right font-oringe" v-show="selectCard">{{selectCard}}元充值卡</span>
+            <span class="pull-right font-oringe" v-show="selectCard.total">{{selectCard.total}}元充值卡</span>
         </p>
-        <p class="white-back border-bottom font-12" v-show="selectCard">本次充值后充值卡余额 <span class="pull-right">￥{{finalPrice}}</span></p>
+        <p class="white-back border-bottom font-12" v-show="selectCard.total">本次充值后充值卡余额 <span class="pull-right">￥{{finalPrice}}</span></p>
     </div>
 </template>
 
@@ -22,7 +22,7 @@
         },
         computed:{
             finalPrice:function () {
-                return this.selectCard-this.totalPrice
+                return this.selectCard.total-this.totalPrice
             }
         }
     }

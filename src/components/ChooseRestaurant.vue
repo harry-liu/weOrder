@@ -1,9 +1,9 @@
 <template>
     <div class="choose-restaurant-container">
         <div class="back-container"></div>
-        <div class="position" v-for="store in storeList" @click="goTo(store._id)" >
-            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">{{store.store_name}}</h1>
-            <p class="font-white font-12">{{store.store_address}}</p>
+        <div class="position" v-for="store in storeList" @click="goTo(store.id)" >
+            <h1 class="font-white font-15"><img src="../assets/white_position.png" alt="">{{store.name}}</h1>
+            <p class="font-white font-12">{{store.address}}</p>
         </div>
     </div>
 </template>

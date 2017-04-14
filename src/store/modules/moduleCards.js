@@ -26,18 +26,15 @@ const transformCards = function (list) {
 
 export const moduleCards = {
     state:{
-        cards:[]
+        cards:[],
+        selectedCard:{}
     },
-    // getters:{
-    //     returnCards:function (state,min) {
-    //         return state.cards.filter(function (card) {
-    //             return card.total>=min
-    //         })
-    //     }
-    // },
     mutations:{
         setCards:function (state,cards) {
             state.cards = transformCards(cards);
+        },
+        setCard:function (state,card) {
+            state.selectedCard = card;
         }
     },
     actions:{

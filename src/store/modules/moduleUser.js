@@ -37,6 +37,11 @@ export const moduleUser = {
                 context.commit('setTotalSpend',response.data.data.money)
             })
         },
+        getUserBalance:function (context) {
+            api.getBalance(token).then(function (response) {
+                context.commit('setBalance',response.data.data.money)
+            })
+        },
         sendMsg:function (context,mobile) {
             return api.getMsg(token,mobile);
         },

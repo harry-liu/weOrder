@@ -5,7 +5,7 @@
         <input type="text" placeholder="询问服务员后输入" class="font-12" v-model="total">
         <card-pay @click.native="toggleChangeCard" v-show="total>0" :totalPrice="total" :selectCard = 'selectCard'></card-pay>
         <div class="container">
-            <div class="btn-pay red-back">支付：￥{{selectCard||total||0}}</div>
+            <div class="btn-pay red-back">支付：￥{{selectCard.spend||total||0}}</div>
         </div>
         <div class="change-container" v-show="showChangeStore">
             <select-list type="store" :listData="storeList" @hide="toggleChangeStore" @updateValue="selectStore = arguments[0]"></select-list>
@@ -26,71 +26,34 @@
             return{
                 showChangeStore:false,
                 showChangeCard:false,
-                storeList:[],
-                cardsList:[],
                 total:'',
                 selectStore:'',
-                selectCard:'',
+                selectCard:{},
                 chargeAmount:0
             }
         },
-        mounted(){
-            var token = localStorage.getItem('access_token');
-            var current = this;
-            api.getStore(token).then(function (response) {
-                //current.storeList = response.data.data.stores;
-                current.transformStoreList(response.data.data.stores);
-            })
-            api.getCardsList(token).then(function (response) {
-                current.transformCardsList(response.data.data.list);
-            })
-            //console.log(this.storeList);
-
+        created(){
+            this.$store.dispatch('getRestaurants');
+            this.$store.dispatch('getCards');
         },
         components:{
             SelectList,
             CardPay
         },
         computed:{
-            getCardList:function(){
-
+            cardsList:function(){
+                var current = this;
+                return this.$store.state.cards.cards.filter(function (card) {
+                    return card.total>=current.total;
+                })
+            },
+            storeList:function () {
+                return this.$store.state.restaurants.restaurantList
             }
         },
         methods:{
-            transformStoreList:function (list) {
-                var newList = [];
-                list.forEach(function (li) {
-                    var newObj = {
-                        name:'',
-                        selected:false,
-                        value:''
-                    }
-                    newObj.name = li.store_name;
-                    newObj.value = li.store_name;
-                    newList.push(newObj);
-                })
-                this.storeList = newList;
-            },
-            transformCardsList:function (list) {
-                var newList = [];
-                list.forEach(function (li) {
-                    var newObj = {
-                        name:'',
-                        selected:false,
-                        value:''
-                    }
-                    var total = Number(li.val)+Number(li.remark);
-                    newObj.name = total+'元充值卡（充'+li.val+'送'+li.remark+'）';
-                    newObj.value = li.name;
-                    newObj.total = total;
-                    newObj.spend = li.val;
-                    newList.push(newObj);
-                })
-                this.cardsList = newList;
-            },
             toggleChangeStore:function () {
                 this.showChangeStore = !this.showChangeStore;
-                //this.$store.commons.commit('toggleBlackCover');
                 this.$store.commit('toggleBlackCover')
             },
             toggleChangeCard:function () {
