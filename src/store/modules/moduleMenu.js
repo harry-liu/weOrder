@@ -5,7 +5,7 @@ import api from '../../API/api'
 
 const token = localStorage.getItem('access_token')
 
-const transfromMenu = function (obj) {
+const transfromMenu = function (rootState,obj) {
     var finalList = [];
 
     var pushTag = function (food) {
@@ -31,19 +31,30 @@ const transfromMenu = function (obj) {
     };
 
     var pushFood = function (food) {
+
         finalList.forEach(function (tag) {
             if(tag.id === food.cate){
                 var newFood = {
                     name:'',
+                    desc:'',
                     price:'',
                     id:'',
                     cover:'',
+                    taste:[],
                     selected:0
                 };
                 newFood.name = food.title;
                 newFood.price = food.market_price;
                 newFood.id = food.goods_id;
                 newFood.cover = food.thumb;
+                newFood.desc = food.desc;
+                newFood.taste = food.taste;
+
+                rootState.cart.cart.forEach(function (fo) {
+                    if(newFood.id === fo.id){
+                        newFood.selected = fo.selected;
+                    }
+                })
 
                 tag.list.push(newFood);
             }
@@ -67,14 +78,17 @@ export const moduleMenu = {
         menu:[]
     },
     mutations:{
-        setMenu:function (state,menu) {
-            state.menu = transfromMenu(menu)
+        setMenu:function (state,parm) {
+            state.menu = transfromMenu(parm.rootState,parm.data)
         }
     },
     actions:{
         getMenu:function (context) {
             api.getMenu(token).then(function (response) {
-                context.commit('setMenu',response.data.data.CateGoodsList);
+                context.commit('setMenu',{
+                    data:response.data.data.CateGoodsList,
+                    rootState:context.rootState
+                });
             });
         }
     }

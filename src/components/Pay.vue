@@ -14,12 +14,9 @@
         </div>
 
         <div class="food-list container">
-            <p class="font-gry border-bottom">某某餐厅龙首原店</p>
+            <p class="font-gry border-bottom">{{restaurant.store_name}}</p>
             <ul>
-                <li>招牌大骨面 * 1 <span class="pull-right">￥32</span></li>
-                <li>招牌大骨面 * 1 <span class="pull-right">￥32</span></li>
-                <li>招牌大骨面 * 1 <span class="pull-right">￥32</span></li>
-                <li>招牌大骨面 * 1 <span class="pull-right">￥32</span></li>
+                <li v-for="food in carts">{{food.name}} * {{food.selected}} <span class="pull-right">￥{{food.price}}</span></li>
             </ul>
         </div>
 
@@ -35,7 +32,7 @@
 
         <div class="bottom container">
             <div class="money">
-                <p>待付金额：<span class="font-oringe">￥60</span></p>
+                <p>待付金额：<span class="font-oringe">￥{{total}}</span></p>
             </div>
             <div class="pay pull-right pull-top  font-white red-back" @click="pay">
                 <p>微信支付</p>
@@ -57,24 +54,33 @@
         name:"pay",
         data(){
             return{
-                total:'',
                 selectCard:'',
-                showChangeCard:false,
-                cardsList:[
-                    {name:'115元充值卡（充100送15）',selected:false,value:100},
-                    {name:'225元充值卡（充200送25）',selected:false,value:200},
-                    {name:'335元充值卡（充300送35）',selected:false,value:300},
-                    {name:'445元充值卡（充400送45）',selected:false,value:400}
-                ],
+                showChangeCard:false
             }
         },
-        mounted(){
+        computed:{
+            restaurant:function () {
+                return this.$store.state.restaurants.restaurantDetail
+            },
+            carts:function () {
+                return this.$store.state.cart.cart;
+            },
+            total:function () {
+                return this.$store.getters.totalSpend||0
+            },
+            cardsList:function () {
+                var current = this;
+                return this.$store.state.cards.cards.filter(function (card) {
+                    return card.total>=current.total
+                })
+            }
+        },
+        created(){
             var token = localStorage.getItem('access_token');
             var current = this;
             var url = window.location.href;
-            api.getCardsList(token).then(function (response) {
-                current.transformCardsList(response.data.data.list);
-            })
+            this.$store.dispatch('getCards');
+
             api.getWechatSetting(token,url).then(function (response) {
                 var data = response.data.data.share;
                 wx.config({
@@ -92,23 +98,6 @@
             CardPay
         },
         methods:{
-            transformCardsList:function (list) {
-                var newList = [];
-                list.forEach(function (li) {
-                    var newObj = {
-                        name:'',
-                        selected:false,
-                        value:''
-                    }
-                    var total = Number(li.val)+Number(li.remark);
-                    newObj.name = total+'元充值卡（充'+li.val+'送'+li.remark+'）';
-                    newObj.value = li.name;
-                    newObj.total = total;
-                    newObj.spend = li.val;
-                    newList.push(newObj);
-                })
-                this.cardsList = newList;
-            },
             toggleChangeCard:function () {
                 this.showChangeCard = !this.showChangeCard;
                 this.$store.commit('toggleBlackCover');

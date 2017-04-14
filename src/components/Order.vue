@@ -24,9 +24,9 @@
                             </div>
                             <p class="font-14 font-oringe pull-left" style="width: 100%">￥ {{fo.price}}</p>
                             <div class="plus pull-right font-gry">
-                                <div v-show="fo.selected" @click="fo.selected--">-</div>
+                                <div v-show="fo.selected" @click="minusFood(fo)">-</div>
                                 <div class="font-oringe" style="line-height: 22px;font-size: 16px;" v-show="fo.selected">{{fo.selected}}</div>
-                                <div @click="fo.selected++">+</div>
+                                <div @click="addFood(fo)">+</div>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
             totalNumber:function () {
                 var number = 0;
                 this.selectedFood.forEach(function (food) {
-                    number += 1 * food.selected;
+                    number += food.selected;
                 });
                 return number;
             },
@@ -134,7 +134,6 @@
         methods:{
             goToPay:function () {
                 this.$router.push('/take-away-pay');
-
             },
             clearSelectedFood:function () {
                 this.menu.forEach(function (foods) {
@@ -142,7 +141,14 @@
                         food.selected = 0;
                     })
                 })
+                this.$store.commit('clearCart');
                 this.showSelectedList = false;
+            },
+            addFood:function (food) {
+                this.$store.commit('addFood',food);
+            },
+            minusFood:function (food) {
+                this.$store.commit('minusFood',food);
             },
             scrollFn:function (e) {
                 var targetTop = document.getElementById('section-right').scrollTop;
