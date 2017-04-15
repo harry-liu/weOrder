@@ -1,6 +1,6 @@
 <template>
     <div class="pay-online-container">
-        <p class="white-back border-top border-bottom font-12" @click="toggleChangeStore">{{selectStore||'请选择餐厅'}}<img src="../assets/arrow.png" class="pull-right arrow"></p>
+        <p class="white-back border-top border-bottom font-12" @click="toggleChangeStore">{{selectStore.value||'请选择餐厅'}}<img src="../assets/arrow.png" class="pull-right arrow"></p>
         <p class="white-back border-top border-bottom font-12">消费总金额</p>
         <input type="text" placeholder="询问服务员后输入" class="font-12" v-model="total">
         <card-pay @click.native="toggleChangeCard" v-show="total>0" :totalPrice="total" :selectCard = 'selectCard'></card-pay>
@@ -27,7 +27,7 @@
                 showChangeStore:false,
                 showChangeCard:false,
                 total:'',
-                selectStore:'',
+                selectStore:{},
                 selectCard:{},
                 chargeAmount:0
             }
